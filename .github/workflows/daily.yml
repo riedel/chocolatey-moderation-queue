@@ -1,0 +1,36 @@
+name: Scrape Queue
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # This cron expression schedules the workflow to run daily at midnight UTC
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup Pythob
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Setup Dependencies
+      run: pip install -r requirements.txt
+
+    - name: Scrape
+      run: python moderator_queue.py
+
+    - name: Commit results
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add .
+        git commit -m 'Update results from script'
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

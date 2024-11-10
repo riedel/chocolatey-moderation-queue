@@ -1,0 +1,4 @@
+beautifulsoup4~=4.3
+pandas
+Requests~=2.32
+tabulate
