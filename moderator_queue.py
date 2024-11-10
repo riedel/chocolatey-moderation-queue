@@ -57,8 +57,7 @@ df=pd.DataFrame.from_records(dfs)
 # Reorder DataFrame
 important_columns=["Id", "Version", "Title", "DownloadCount"]
 package_columns = [col for col in df.columns if col.startswith('Package')]
-other_columns = [col for col in df.columns if not col in (important_columns + package_columns)]
-df = df[important_columns + package_columns + other_columns]
-other_columns = [col for col in df.columns if not col.startswith('Package')]
+# other_columns = [col for col in df.columns if not col in (important_columns + package_columns)]
+df = df[important_columns + package_columns]
 print(df.to_markdown('README.md'))
 df.to_csv('moderator_queue.csv') 
